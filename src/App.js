@@ -1,35 +1,36 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { Component } from "react";
 
-const App = () => {
-  const profiles = [
-      {name: "Taro", age: 10},
-      {name: "Hanako", age: 6},
-      {name: "NoName", age: 3}
-  ]
-  return (
-  <div>
-    {
-      profiles.map((profile, index) => {
-        // DOMの変更点をReactが検知してくれる
-        // DOMにキーをつけることで、Reactが変更点を検知しやすくなる
-        // map で受け取るindexを利用して、keyにindexを指定することもできる
-        return <User name={profile.name} age={profile.age} key ={index}/>
-    })
+
+const App = () => (<Counter></Counter>);
+
+class Counter extends Component{
+  // 初期化処理が実行される
+  constructor(props){
+    super(props)
+    // 初期化時にオブジェクトが設定される
+    this.state = {count:0}
   }
-  </div>
-  )
-}
 
-// ユーザーコンポーネント
-const User = (props) => {
-  return <div>Hi, I am {props.name}, and {props.age} years old.</div>
-}
+  handlePlusButton = () => {
+    // setStateが実行されるとrenderが実行される
+    this.setState({count: this.state.count + 1})
+  }
 
-// propsの型を定義する
-User.propTypes = {
-  name: PropTypes.string,
-  age: PropTypes.number.isRequired,
+  handleMinusButton = () => {
+    this.setState({count: this.state.count - 1})
+  }
+
+  render(){
+    return (
+      // returnで返すjsxは親が一つでなければならないのでReact.Fragmentで囲む
+    <React.Fragment>
+      <div>counter: { this.state.count }</div>
+      <button onClick={this.handlePlusButton}>+1</button>
+      <button onClick={this.handleMinusButton}>-1</button>
+    </React.Fragment>
+    )
+  }
 }
 
 export default App;
